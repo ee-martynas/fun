@@ -1,21 +1,35 @@
 #!/bin/bash
 
+# TODO
+# Add list of stuff to say
+# Add option to install xcowsay
+
+
+# Check if we have everything needed installed
+if ! [ -x "$(command -v xcowsay)" ]; then
+	echo "Aww, you do not have xcowsay installed" >&2
+	exit 1
+fi
+
+
 # Temporary location to store our image
 image_location=/tmp/pickle.png
 
-### this part doesnt work as expected
-### Lets be polite and clean up after ourselves
-###trap "{ rm -f $image_location; }" exit
+
+# Lets be polite and clean up after ourselves
+trap "{ rm -f $image_location; }" exit
 
 
 # Generate the image from our src file
 pickle=$(awk '/^__pickle_image__/{print NR + 1;exit;0;}' $0)
 tail -n+$pickle $0 | base64 -d > $image_location 
 
+
 # Main function to be as annoying as possible
 function say_moo {
         xcowsay --image=$image_location "muuu"
 }
+
 
 # Start the annoying loop
 while true
@@ -24,8 +38,10 @@ do
         sleep 0.5
 done
 
-# Hopefully we will not get so far but if we do...
+
+# Hopefully we will not get so far but if we do ...
 exit
+
 
 # Our image file
 __pickle_image__
