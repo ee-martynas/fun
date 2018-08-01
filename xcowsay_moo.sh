@@ -27,7 +27,8 @@ tail -n+$pickle $0 | base64 -d > $image_location
 
 # Main function to be as annoying as possible
 function say_moo {
-        xcowsay --image=$image_location "muuu"
+	muuu=$(curl -X GET 'https://geek-jokes.sameerkumar.website/api')
+        xcowsay -t 1 --image=$image_location $muuu
 }
 
 
